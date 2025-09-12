@@ -21,12 +21,23 @@ function updatePlayerInputs() {
                 <label>名前: <input type="text" name="playerName${i}" required></label>
                 <label>ベット額: <input type="number" name="betAmount${i}" min="0" required class="betAmountInput"></label>
                 <label>順位: <select name="rank${i}" class="rankSelect"><option value="">--</option>${rankOptions}</select></label>
+                <button type="button" class="fold">フォールド</button>
             </div>
         `;
     }
     setupBetAmountListener();
 }
-
+function setupFoldButtonListener() {
+    const foldButtons = document.querySelectorAll('.fold');
+    foldButtons.forEach(button => {
+        button.addEventListener('click', () => {
+            button.previousElementSibling.value = '0';
+            button.previousElementSibling.previousElementSibling.value = '--';
+            button.previousElementSibling.previousElementSibling.previousElementSibling.value = 'フォールド';
+            updateTotalBet();
+        });
+    });
+}
 function setupBetAmountListener() {
     const betInputs = document.querySelectorAll('.betAmountInput');
     betInputs.forEach(input => {
@@ -144,7 +155,7 @@ function calculatePot() {
         });
     });
     // サイドポット分配テーブル
-    let potTable = '<div class="sidepot-table-wrapper" style="margin-top:16px;text-align:left;">【サイドポット分配テーブル】<table border="1" style="border-collapse:separate;border-spacing:0;margin-top:16px;width:auto;">';
+    let potTable = '<div class="sidepot-table-wrapper" style="margin-top:16px;text-align:left;">【サイドポット分配テーブル】<table style="border-collapse:separate;border-spacing:0;margin-top:16px;width:auto;">';
     potTable += '<tr><th>サイドポット</th><th>金額</th><th>対象者</th><th>勝者</th><th>1人あたり</th><th>余り</th></tr>';
     potTableRows.forEach(row => {
         potTable += `<tr><td>${row.idx}</td><td>${row.amount}</td><td>${row.eligible}</td><td>${row.winners}</td><td>${row.share}</td><td>${row.remain}</td></tr>`;
@@ -156,6 +167,7 @@ function calculatePot() {
     for (let i = 0; i < numPlayers; i++) {
         const tr = document.createElement('tr');
         tr.innerHTML = `<td>${names[i]}</td><td>${bets[i]}</td><td>${result[i]}</td>`;
+        // tr.innerHTML = `<td>${names[i]}</td><td>${bets[i]}</td><td>${result[i]}</td>`;
         tbody.appendChild(tr);
     }
     // 余りの詳細・サイドポット分配の詳細を表示
@@ -182,46 +194,3 @@ function resetForm() {
         if (totalDiv) totalDiv.textContent = '合計ベット額: 0 円';
     }, 0);
 }
-
-// ======= テスト用ボタン・テスト表示機能ここから =======
-// テスト用ボタンを追加
-window.addEventListener('DOMContentLoaded', function() {
-    if (!document.getElementById('testShowSidepotBtn')) {
-        const btn = document.createElement('button');
-        btn.id = 'testShowSidepotBtn';
-        btn.textContent = 'テスト用: サイドポット分配テーブル表示';
-        btn.style.margin = '16px';
-        btn.style.background = '#2e8b57';
-        btn.style.color = '#fff';
-        btn.style.fontWeight = 'bold';
-        btn.style.fontSize = '1em';
-        btn.style.borderRadius = '8px';
-        btn.style.border = 'none';
-        btn.style.cursor = 'pointer';
-        btn.onclick = showTestSidepotTable;
-        document.querySelector('.result-wrapper').prepend(btn);
-    }
-});
-
-function showTestSidepotTable() {
-    // テスト用ダミーデータ
-    const potTableRows = [
-        { idx: 1, amount: 300, eligible: 'A、B、C', winners: 'A', share: 300, remain: '-' },
-        { idx: 2, amount: 200, eligible: 'B、C', winners: 'B、C', share: 100, remain: '-' },
-        { idx: 3, amount: 100, eligible: 'C', winners: 'C', share: 100, remain: '-' }
-    ];
-    let potTable = '<div class="sidepot-table-wrapper" style="margin-top:16px;text-align:left;">【サイドポット分配テーブル】<table border="1" style="border-collapse:separate;border-spacing:0;margin-top:16px;width:auto;">';
-    potTable += '<tr><th>サイドポット</th><th>金額</th><th>対象者</th><th>勝者</th><th>1人あたり</th><th>余り</th></tr>';
-    potTableRows.forEach(row => {
-        potTable += `<tr><td>${row.idx}</td><td>${row.amount}</td><td>${row.eligible}</td><td>${row.winners}</td><td>${row.share}</td><td>${row.remain}</td></tr>`;
-    });
-    potTable += '</table></div>';
-    let extraDiv = document.getElementById('extraInfo');
-    if (!extraDiv) {
-        extraDiv = document.createElement('div');
-        extraDiv.id = 'extraInfo';
-        document.querySelector('.result-wrapper').appendChild(extraDiv);
-    }
-    extraDiv.innerHTML = potTable;
-}
-// ======= テスト用ボタン・テスト表示機能ここまで =======
