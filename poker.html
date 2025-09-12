@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ポットわけくん</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <h1>ポットわけくん</h1>
+    <p>ポットわけくんは、ポーカーのポットを公平に分けるためのツールです。</p>
+    <h2>使い方</h2>
+    <hr>
+    <ol>
+        <li>プレイヤーの名前とそれぞれのベット額を入力します。</li>
+        <li>「計算」ボタンをクリックします。</li>
+        <li>各プレイヤーが受け取る金額が表示されます。</li>
+    </ol>
+    <h2>入力フォーム</h2>
+<form id="pokerForm">
+  <div id="formInputsWrapper">
+<label for="numPlayers">人数:</label> <select id="numPlayers" name="numPlayers" onchange="updatePlayerInputs()"> <option value="2">2</option> <option value="3">3</option> <option value="4">4</option> <option value="5">5</option> <option value="6">6</option> <option value="7">7</option> <option value="8">8</option> <option value="9">9</option> <option value="10">10</option> </select>
+    <div id="playerInputs">
+      <div class="playerInput">
+        <input type="checkbox" id="p0">
+        <label for="p0">名前: <input type="text" name="playerName0" required></label>
+        <label>ベット額: <input type="number" name="betAmount0" min="0" required></label>
+      </div>
+      <div class="playerInput">
+        <input type="checkbox" id="p1">
+        <label for="p1">名前: <input type="text" name="playerName1" required></label>
+        <label>ベット額: <input type="number" name="betAmount1" min="0" required></label>
+      </div>
+    </div>
+
+    <div class="form-buttons">
+      <button type="button" onclick="calculatePot()">計算</button>
+      <button type="reset" onclick="resetForm()">リセット</button>
+      <button type="button" id="helpBtn">❓ ヘルプ</button>
+    </div>
+
+    <div id="helpContent" class="hidden">
+        <h3>サイドポットとは？</h3>
+        <p>
+        各プレイヤーのベット額が異なる場合、全員のチップを公平に分けるために
+        「サイドポット」が作られます。<br>
+        例えば Aが100円、Bが200円、Cが300円をベットすると…
+    </p>
+  <ul>
+    <li>メインポット: 各プレイヤー100円ずつ、合計300円</li>
+    <li>サイドポット1: BとCが追加で100円ずつ、合計200円</li>
+    <li>サイドポット2: Cだけがさらに100円、合計100円</li>
+  </ul>
+  <p>勝者は自分のベット範囲に応じて、対応するポットを分け合います。</p>
+  </div>
+  <div class="result-wrapper">
+      <h2>結果</h2>
+    <table id="resultTable" border="1">
+      <thead>
+        <tr><th>名前</th><th>ベット額</th><th>受け取る金額</th></tr>
+      </thead>
+      <tbody></tbody>
+    </table>
+  </div>
+</form>
+</body>
+    <script src="poker.js" defer></script>
+</html>
