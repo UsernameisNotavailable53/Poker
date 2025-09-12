@@ -20,23 +20,10 @@ function updatePlayerInputs() {
             <div class="playerInput">
                 <label>名前: <input type="text" name="playerName${i}" required></label>
                 <label>ベット額: <input type="number" name="betAmount${i}" min="0" required class="betAmountInput"></label>
-                <label>順位: <select name="rank${i}" class="rankSelect"><option value="">--</option>${rankOptions}</select></label>
-                <button type="button" class="fold">フォールド</button>
-            </div>
+                <label>順位: <select name="rank${i}" class="rankSelect"><option value="">--</option>${rankOptions}</select></label>            </div>
         `;
     }
     setupBetAmountListener();
-}
-function setupFoldButtonListener() {
-    const foldButtons = document.querySelectorAll('.fold');
-    foldButtons.forEach(button => {
-        button.addEventListener('click', () => {
-            button.previousElementSibling.value = '0';
-            button.previousElementSibling.previousElementSibling.value = '--';
-            button.previousElementSibling.previousElementSibling.previousElementSibling.value = 'フォールド';
-            updateTotalBet();
-        });
-    });
 }
 function setupBetAmountListener() {
     const betInputs = document.querySelectorAll('.betAmountInput');
@@ -194,3 +181,4 @@ function resetForm() {
         if (totalDiv) totalDiv.textContent = '合計ベット額: 0 円';
     }, 0);
 }
+
