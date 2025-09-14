@@ -21,12 +21,6 @@ li{
     box-shadow: 0 2px 12px #0003;
     padding: 24px 12px 24px 12px;
     width: 100%;
-    
-}
-.result-wrapper th,tr{
-    border-radius: 10px;
-    padding: 10px;
-    border: 1px solid;
 }
 input[type="text"], input[type="number"], select {
     font-size: 1.2em;
@@ -77,10 +71,6 @@ button{
     cursor: pointer;
     width: 100px;
     transition: background-color 0.2s ease;
-}
-.fold{
-    width: 50px;
-    height: 100%;
 }
 button:hover{
     background-color: #b9b7b7;
