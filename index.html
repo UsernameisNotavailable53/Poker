@@ -34,9 +34,9 @@
     </div>
 
     <div class="form-buttons">
-      <button type="button" onclick="calculatePot()">計算</button>
-      <button type="reset" onclick="resetForm()">リセット</button>
-      <button type="button" id="helpBtn">❓ ヘルプ</button>
+      <button class="calculate" type="button" onclick="calculatePot()">計算</button>
+      <button class="reset" type="reset" onclick="resetForm()">リセット</button>
+      <button class="help" type="button" id="helpBtn">❓ ヘルプ</button>
     </div>
 
     <div id="helpContent" class="hidden">
@@ -52,6 +52,12 @@
     <li>サイドポット2: Cだけがさらに100円、合計100円</li>
   </ul>
   <p>勝者は自分のベット範囲に応じて、対応するポットを分け合います。</p>
+    <h4>注意点</h4>
+    <ul>
+        <li>サイドポットは、メインポットとは別に管理されます。</li>
+        <li>各プレイヤーのベット額が異なる場合、サイドポットが発生します。</li>
+        <li>サイドポットの分配は、各プレイヤーのベット額に応じて行われます。</li>
+    </ul>
     </div>
   </div>
     <div class="result-wrapper">
