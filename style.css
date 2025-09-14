@@ -21,13 +21,22 @@ li{
     box-shadow: 0 2px 12px #0003;
     padding: 24px 12px 24px 12px;
     width: 100%;
+    margin-right: 48px;
+    box-sizing: border-box;
+    text-align: center;
+    
+}
+.result-wrapper th,tr{
+    border-radius: 10px;
+    padding: 10px;
+    border: 1px solid;
 }
 input[type="text"], input[type="number"], select {
     font-size: 1.2em;
     padding: 12px 16px;
     border-radius: 8px;
     border: 1.5px solid #888;
-    margin: 10px 0;
+    margin: 5px 0;
     width: 100px;
     box-sizing: border-box;
     background: #fff;
@@ -38,20 +47,23 @@ input[type="text"], input[type="number"], select {
     width: 200px;
 }
 .playerInput label {
-    margin-right: 24px;
+    margin-right: 12px;
     display: inline-flex;
     align-items: center;
     font-size: 1.1em;
     vertical-align: middle;
     white-space: nowrap;
+    gap: 6px;
+    flex: 1;
 }
 .playerInput {
-    margin-bottom: 24px;
+    margin-bottom: 0;
     padding: 8px 0;
     display: flex;
     flex-direction: row;
     align-items: center;
-    gap: 12px;
+    gap: 8px;
+
 }
 input, select {
     background: #fff;
@@ -62,15 +74,9 @@ input:focus, select:focus {
     box-shadow: 0 0 6px #2e8b5744;
 }
 button{
-    margin-left: 50px;
-    margin-right: 15px;
-    margin-top: 30px;
-    padding: 20px;
-    border-radius: 8px;
-    border: none;
-    cursor: pointer;
-    width: 100px;
-    transition: background-color 0.2s ease;
+  min-width: 80px; /* 最低幅を揃える */
+  padding: 4px 8px;
+  margin: 2px;
 }
 button:hover{
     background-color: #b9b7b7;
@@ -92,7 +98,6 @@ button:hover{
 .hidden {
   display: none;
 }
-
 #helpContent {
   margin-top: 10px;
   padding: 10px;
@@ -106,7 +111,7 @@ button:hover{
     align-items: flex-start;
     justify-content: center;
     gap: 48px;
-    max-width: 1200px;
+    max-width: 1600px;
     margin: 0 auto;
     padding: 32px 0 24px 0;
     background: #292929;
@@ -125,7 +130,6 @@ button:hover{
     align-items: center;
     width: 100%;
 }
-
 /* サイドポット分配テーブル用 丸みデザイン */
 .sidepot-table-wrapper table {
     border-radius: 14px;
@@ -143,4 +147,38 @@ button:hover{
 }
 .sidepot-table-wrapper tr {
     border-radius: 8px;
+}
+.folded {
+    background-color: #555 !important;
+    color: #888 !important;
+    text-decoration: line-through;
+}
+.calculate,.reset,.help{
+    padding: 12px 36px;
+    border: none;
+    background: #4e9af1;       /* 青系 */
+    color: white;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background 0.2s;
+    border-radius: 8px;
+    margin: 10px;
+
+}
+button.fold {
+  padding: 6px 12px;
+  border: none;
+  background: #ff6b6b;       /* 赤系 */
+  color: white;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+button.fold:hover {
+  background: #ff4040;       /* ホバー時は濃く */
+}
+input.folded {
+    text-decoration: line-through;
+    color: #888;
+    background: #eee;
 }
