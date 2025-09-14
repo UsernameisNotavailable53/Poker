@@ -20,10 +20,50 @@ function updatePlayerInputs() {
             <div class="playerInput">
                 <label>名前: <input type="text" name="playerName${i}" required></label>
                 <label>ベット額: <input type="number" name="betAmount${i}" min="0" required class="betAmountInput"></label>
-                <label>順位: <select name="rank${i}" class="rankSelect"><option value="">--</option>${rankOptions}</select></label>            </div>
+                <label>順位: <select name="rank${i}" class="rankSelect"><option value="">--</option>${rankOptions}</select></label>
+                <button type="button" class="fold" onclick="foldPlayer(this)">🏳</button>
+            </div>
         `;
     }
     setupBetAmountListener();
+}
+function foldPlayer(input) {
+    const playerDiv = input.parentElement;
+    const nameInput = playerDiv.querySelector("input[name^='playerName']");
+    const betInput = playerDiv.querySelector("input[name^='betAmount']");
+    const rankSelect = playerDiv.querySelector("select[name^='rank']");
+    if (input.textContent === '🏳') {
+        // 棄権処理
+        // 元の値を保存
+        playerDiv.dataset.prevName = nameInput.value;
+        playerDiv.dataset.prevBet = betInput.value;
+        playerDiv.dataset.prevRank = rankSelect.value;
+
+        nameInput.classList.add('folded');
+        nameInput.disabled = true;
+        betInput.classList.add('folded');
+        betInput.value = 0;
+        betInput.disabled = true;
+        rankSelect.value = 'infinity';
+        playerDiv.dataset.folded = 'true';
+        rankSelect.disabled = true;
+        input.textContent = '↩'; // 復帰ボタンに変更
+    } else {
+        // 復帰処理
+        nameInput.classList.remove('folded');
+        nameInput.disabled = false;
+        betInput.classList.remove('folded');
+        betInput.disabled = false;
+        rankSelect.disabled = false;
+        playerDiv.dataset.folded = 'false';
+        input.textContent = '🏳'; // 棄権ボタンに戻す
+
+        // 保存していた値を復元
+        nameInput.value = playerDiv.dataset.prevName || '';
+        betInput.value = playerDiv.dataset.prevBet || '';
+        rankSelect.value = playerDiv.dataset.prevRank || '';
+    }
+    updateTotalBet();
 }
 function setupBetAmountListener() {
     const betInputs = document.querySelectorAll('.betAmountInput');
@@ -66,6 +106,16 @@ function validateInputs(numPlayers, names, bets, ranks) {
     // 順位チェック
     if (ranks.some(r => isNaN(r))) {
         errors.push('全員の順位を選択してください');
+    }else {
+        let rankSet = new Set();
+        ranks.forEach((rank, i) => {
+            if (rank !== 'folded') {
+                if (rankSet.has(rank)) {
+                    // errors.push(`順位「${rank}位」が重複しています`);
+                }
+                rankSet.add(rank);
+            }
+        });
     }
     // 順位の重複はOK（同着対応）
     return errors;
@@ -84,6 +134,14 @@ function calculatePot() {
         bets.push(bet);
         ranks.push(rank);
     }
+    const playerDivs = document.querySelectorAll('.playerInput');
+    playerDivs.forEach((div, i) => {
+        if (div.dataset.folded === 'true') {
+            ranks[i] = Infinity; // 棄権者は最下位扱い
+        }else if (isNaN(ranks[i]) || ranks[i] === '') {
+            ranks[i] = Infinity; // 順位未入力者も最下位扱い
+        }
+    });
     // バリデーション
     const errors = validateInputs(numPlayers, names, bets, ranks);
     if (errors.length > 0) {
@@ -181,4 +239,6 @@ function resetForm() {
         if (totalDiv) totalDiv.textContent = '合計ベット額: 0 円';
     }, 0);
 }
-
+//正直jsは疲れるからaiに頼ってるんよな
+//だからこんなに短時間でできちゃんよ...
+//そうえいばなんでここまで見てるんだい？
