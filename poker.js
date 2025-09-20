@@ -134,6 +134,19 @@ function calculatePot() {
         bets.push(bet);
         ranks.push(rank);
     }
+    const autoNames = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+    for (let i = 0; i < numPlayers; i++) {
+        let name = document.querySelector(`[name='playerName${i}']`).value.trim();
+        if (!name) {
+            // 26人までA～Z、それ以上は数字
+            name = i < 26 ? autoNames[i] : (i + 1).toString();
+        }
+        const bet = parseInt(document.querySelector(`[name='betAmount${i}']`).value, 10);
+        const rank = parseInt(document.querySelector(`[name='rank${i}']`).value, 10);
+        names.push(name);
+        bets.push(bet);
+        ranks.push(rank);
+    }
     const playerDivs = document.querySelectorAll('.playerInput');
     playerDivs.forEach((div, i) => {
         if (div.dataset.folded === 'true') {
